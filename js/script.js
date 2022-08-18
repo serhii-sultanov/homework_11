@@ -17,6 +17,11 @@ function formatDateOfBirth(birthDay) {
   return `${birthYear}-${birthMonth}-${birthDate}`;
 }
 
+function isWeekend() {
+  let currentDate = new Date().getDay();
+  return currentDate === 0 || currentDate === 6;
+}
+
 class Person {
   constructor(firstName, lastName, age, birthDayDate) {
     this.firstName = firstName;
@@ -26,51 +31,61 @@ class Person {
   }
 
   celebrate() {
-    let birthDate = new Date(this.birthDayDate).getDate();
-    let birthMonth = new Date(this.birthDayDate).getMonth();
+    const birthDate = new Date(this.birthDayDate).getDate();
+    const birthMonth = new Date(this.birthDayDate).getMonth();
 
-    if (
+    const birthDay =
       birthDate === new Date().getDate() &&
-      birthMonth === new Date().getMonth()
-    ) {
-      return "Happy Birthday, let’s celebrate";
+      birthMonth === new Date().getMonth();
+
+    if (birthDay) {
+      console.log("Happy Birthday, let’s celebrate");
     }
   }
 }
 
 class Employee extends Person {
-  constructor(firstName, lastName, age, birthDayDate, jobPosition) {
+  #salary;
+  constructor(firstName, lastName, age, birthDayDate, salary, jobPosition) {
     super(firstName, lastName, age, birthDayDate);
+    this.#salary = salary;
     this.jobPosition = jobPosition;
   }
-
-  #salary = 2000;
 
   getYearSalary() {
     console.log(this.#salary * 12);
   }
 
   celebrate() {
-    const isWeekend = new Date().getDay() === 6 || new Date().getDay() === 0;
-    if (super.celebrate() && isWeekend) {
+    const birthDate = new Date(this.birthDayDate).getDate();
+    const birthMonth = new Date(this.birthDayDate).getMonth();
+    const currentYear = new Date().getFullYear();
+    const currentBirthDate = new Date(currentYear, birthMonth, birthDate);
+
+    const birthDay =
+      birthDate === new Date().getDate() &&
+      birthMonth === new Date().getMonth();
+
+    if (isWeekend(currentBirthDate)) {
       return super.celebrate();
-    } else if (super.celebrate()) {
-      return "Happy Birthday, but I need to work";
+    } else if (birthDay) {
+      console.log("Happy Birthday, but I need to work");
     }
   }
 }
 
-const personMollie = new Person("Mollie", "Noel", 34, "1988-08-16");
+const personMollie = new Person("Mollie", "Noel", 34, "1988-08-18");
 const employeeDominick = new Employee(
   "Dominick",
   "Palmer",
   27,
-  "1995-08-16",
+  "1995-08-18",
+  2000,
   "Web Designer"
 );
 
 console.log(personMollie);
-console.log(personMollie.celebrate());
+personMollie.celebrate();
 console.log(employeeDominick);
-console.log(employeeDominick.celebrate());
+employeeDominick.celebrate();
 employeeDominick.getYearSalary();
