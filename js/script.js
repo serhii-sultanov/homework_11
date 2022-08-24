@@ -31,16 +31,7 @@ class Person {
   }
 
   celebrate() {
-    const birthDate = new Date(this.birthDayDate).getDate();
-    const birthMonth = new Date(this.birthDayDate).getMonth();
-
-    const birthDay =
-      birthDate === new Date().getDate() &&
-      birthMonth === new Date().getMonth();
-
-    if (birthDay) {
-      console.log("Happy Birthday, let’s celebrate");
-    }
+    console.log("Happy Birthday, let’s celebrate");
   }
 }
 
@@ -62,13 +53,9 @@ class Employee extends Person {
     const currentYear = new Date().getFullYear();
     const currentBirthDate = new Date(currentYear, birthMonth, birthDate);
 
-    const birthDay =
-      birthDate === new Date().getDate() &&
-      birthMonth === new Date().getMonth();
-
     if (isWeekend(currentBirthDate)) {
       return super.celebrate();
-    } else if (birthDay) {
+    } else {
       console.log("Happy Birthday, but I need to work");
     }
   }
